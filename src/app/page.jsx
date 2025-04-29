@@ -48,29 +48,29 @@ export default function page() {
         </section>
       </article>
       <article className='mt-8 flex gap-9 items-start justify-between'>
-        <section className='w-[260px]'>
+        <section className='min-w-[260px] hidden lg:block  shrink-0 sticky top-6 h-fit'>
           <nav className='my-[50px]'>
             <ul className='flex flex-col items-start justify-between gap-4'>
-              <li className='text-[18px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>🍽 Еда</li>
-              <li className='text-[18px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>🕌 Религия</li>
-              <li className='text-[18px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>🛠 Услуги</li>
-              <li className='text-[18px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>💼 Работа и бизнес</li>
-              <li className='text-[18px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>👨‍👩‍👧‍👦 Семья и дети</li>
+              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🍽 Еда</li>
+              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🕌 Религия</li>
+              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🛠 Услуги</li>
+              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>💼 Работа и бизнес</li>
+              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>👨‍👩‍👧‍👦 Семья и дети</li>
             </ul>
           </nav>
         </section>
         <section className='flex flex-col gap-6 w-full my-[50px]'>
           <div className='flex items-center justify-center gap-4'>
-            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>
+            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>
               Кафе
             </button>
-            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>
+            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>
               Рестораны
             </button>
-            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>
+            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>
               Магазины
             </button>
-            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow'>
+            <button className='text-[18px] text-black font-normal bg-[#f6f6f6] p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>
               Фермы
             </button>
           </div>
