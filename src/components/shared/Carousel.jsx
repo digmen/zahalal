@@ -1,9 +1,10 @@
 import React from 'react'
+import EmblaCarousel from './EmblaCarousel'
 
 export default function Carousel() {
-    return (
-        <div>
+    const OPTIONS = { loop: true, slidesToScroll: 'auto' }
+    const SLIDE_COUNT = 10
+    const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
-        </div>
-    )
+    return <EmblaCarousel slides={SLIDES} options={OPTIONS} />
 }

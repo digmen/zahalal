@@ -1,10 +1,13 @@
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
 
 export default function Header() {
+    
     return (
         <header className='bg-white flex items-center px-[10px] py-[12px] w-full shadow sticky top-0 z-10'>
-            <Image src="/images/logo.png" alt="logo" width={110} height={0} className='ml-[150px]' />
+            <Link href='/' className='flex items-center justify-center'>
+                <Image src="/images/logo.png" alt="logo" width={110} height={0} className='ml-[150px]' />
+            </Link>
             <form className='flex w-[456px] items-center justify-between h-11 rounded-full border border-gray-300  mx-auto'>
                 <button className='py-[12px] px-3.5'>
                     <Image

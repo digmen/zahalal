@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+* {
+    scroll-behavior: smooth;
+}
+
 input:focus {
     outline: none;
 }
@@ -11,4 +15,72 @@ input:focus-visible {
 input {
     outline: none;
     border: none;
+}
+
+.embla {
+    max-width: 60rem;
+    margin: auto;
+    --slide-height: 19rem;
+    --slide-spacing: 0.7rem;
+    --slide-size: 33%;
+}
+
+.embla__viewport {
+    overflow: hidden;
+}
+
+.embla__container {
+    display: flex;
+    touch-action: pan-y pinch-zoom;
+    margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+    transform: translate3d(0, 0, 0);
+    flex: 1 0 var(--slide-size);
+    min-width: 0;
+    padding-left: var(--slide-spacing);
+}
+
+.embla__controls {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.embla__buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.embla__button {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 2rem;
+    height: 2rem;
+    z-index: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+
+.embla__button:disabled {
+    color: var(--detail-high-contrast);
+}
+
+.embla__button__svg {
+    width: 50%;
+    height: 50%;
 }
