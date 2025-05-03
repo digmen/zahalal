@@ -4,6 +4,8 @@ import MainPageSearch from '@/components/shared/MainPageSearch'
 import Image from 'next/image'
 import React from 'react'
 
+
+
 export default function page() {
 
   return (
@@ -20,11 +22,11 @@ export default function page() {
         <section className='min-w-[260px] hidden lg:block  shrink-0 sticky top-6 h-fit'>
           <nav className='my-[50px]'>
             <ul className='flex flex-col items-start justify-between gap-4'>
-              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🍽 Еда</li>
-              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🕌 Религия</li>
-              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🛠 Услуги</li>
-              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>💼 Работа и бизнес</li>
-              <li className='text-[16px] text-black font-normal bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>👨‍👩‍👧‍👦 Семья и дети</li>
+              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🍽 Еда</li>
+              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🕌 Религия</li>
+              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🛠 Услуги</li>
+              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>💼 Работа и бизнес</li>
+              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>👨‍👩‍👧‍👦 Семья и дети</li>
             </ul>
           </nav>
         </section>

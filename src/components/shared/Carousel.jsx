@@ -1,4 +1,3 @@
-import React from 'react'
 import EmblaCarousel from './EmblaCarousel'
 
 export default function Carousel() {

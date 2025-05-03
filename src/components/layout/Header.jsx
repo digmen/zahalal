@@ -2,9 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Header() {
-    
+
     return (
-        <header className='bg-white flex items-center px-[10px] py-[12px] w-full shadow sticky top-0 z-10'>
+        <header className='bg-white flex items-center px-[10px] py-[12px] w-full shadow sticky top-0 z-100'>
             <Link href='/' className='flex items-center justify-center'>
                 <Image src="/images/logo.png" alt="logo" width={110} height={0} className='ml-[150px]' />
             </Link>
