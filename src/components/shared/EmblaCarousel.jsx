@@ -52,9 +52,9 @@ const EmblaCarousel = (props) => {
                 width={300}
                 height={100}
                 className='rounded-[10px] w-full h-[200px] object-cover hover:scale-105 transition-all duration-300 ease-in-out' />
-              <div class="absolute z-10 bottom-0 left-0 right-0 p-5 flex flex-col gap-2">
-                <div class="text-white text-xs leading-[14px] uppercase tracking-[0.4px] font-bold font-satoshi font-feature-['ss02','ss03']">Late night shisha & more</div>
-                <h3 class="text-white text-[18px] leading-6 tracking-[-0.135px] font-bold font-satoshi font-feature-['ss01']">Hookah Lounges</h3>
+              <div className="absolute z-10 bottom-0 left-0 right-0 p-5 flex flex-col gap-2">
+                <div className="text-white text-xs leading-[14px] uppercase tracking-[0.4px] font-bold font-satoshi font-feature-['ss02','ss03']">Late night shisha & more</div>
+                <h3 className="text-white text-[18px] leading-6 tracking-[-0.135px] font-bold font-satoshi font-feature-['ss01']">Hookah Lounges</h3>
               </div>
             </div>
           ))}

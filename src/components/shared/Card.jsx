@@ -26,10 +26,12 @@ export default function Card() {
             <span className='text-[14px] font-normal text-[#555555] bg-[#F3F0F3] px-2 py-1 rounded-[10px]'>
                 Халяль, Кафе
             </span>
-            <span className='flex items-center gap-2 text-[16px] font-normal text-black'>
-                4.5
-                <Image src='/images/star.svg' alt='star' width={20} height={20} />
-            </span>
+            <div className='inline-flex items-center gap-2'>
+                <span className=' text-[16px] font-normal text-black'>
+                    4.5
+                </span>
+                <Image src='/images/star.svg' alt='star' width={16} height={16} />
+            </div>
         </Link>
     )
 }

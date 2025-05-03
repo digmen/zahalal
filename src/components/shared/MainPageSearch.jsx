@@ -101,7 +101,7 @@ export default function MainPageSearch() {
                         height={24} />
                     Где вы находитесь?
                     <Image
-                        src="/images/arrow-up.svg"
+                        src="/images/arrow.svg"
                         alt='arrow'
                         width={20}
                         height={20}
