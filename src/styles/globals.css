@@ -12,11 +12,6 @@ input:focus-visible {
     outline: none;
 }
 
-input {
-    outline: none;
-    border: none;
-}
-
 .embla {
     max-width: 60rem;
     margin: auto;

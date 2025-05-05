@@ -12,6 +12,11 @@ export default function MainPageSearch() {
         postcode: '',
     })
 
+    const [openModal, setOpenModal] = useState(false)
+    const [query, setQuery] = useState('')
+    const [results, setResults] = useState([])
+    const [loading, setLoading] = useState(false)
+
     const handleGetLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (position) => {
@@ -19,7 +24,6 @@ export default function MainPageSearch() {
 
                 try {
                     const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=ru`)
-
                     const data = await res.json()
                     const address = data.address
 
@@ -36,13 +40,9 @@ export default function MainPageSearch() {
                 }
             })
         } else {
-            setCity('Геолокация не поддерживается')
+            alert('Геолокация не поддерживается')
         }
     }
-
-    const [query, setQuery] = useState('')
-    const [results, setResults] = useState([])  // изменили с одиночного результата на массив
-    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -64,22 +64,14 @@ export default function MainPageSearch() {
             const data = await res.json()
 
             if (data.length > 0) {
-                const filteredResults = data.filter((item) => {
-                    return item.address &&
-                        (item.address.addresstype?.toLowerCase() === 'city' || item.address.addresstype?.toLowerCase() === 'country');
-
-                }).map((item) => ({
+                const filteredResults = data.map((item) => ({
                     city: item.address.city || item.address.state || item.address.town || item.address.village || '',
                     country: item.address.country || '',
-                }));
-                console.log(filteredResults);
+                })).filter((item, index, self) =>
+                    item.city && self.findIndex(r => r.city === item.city && r.country === item.country) === index
+                )
 
-
-                if (filteredResults.length > 0) {
-                    setResults(filteredResults)
-                } else {
-                    setResults([{ city: 'Не найдено', country: '' }])
-                }
+                setResults(filteredResults.length ? filteredResults : [{ city: 'Не найдено', country: '' }])
             } else {
                 setResults([{ city: 'Не найдено', country: '' }])
             }
@@ -90,10 +82,24 @@ export default function MainPageSearch() {
         }
     }
 
+    const handleLocationClick = () => {
+        setOpenModal(true)
+    }
+
+    const handleSelectCity = (city) => {
+        setLocationData((prev) => ({ ...prev, city }))
+        setOpenModal(false)
+        setQuery('')
+        setResults([])
+    }
+
     return (
         <section>
-            <section className='flex items-center justify-between'>
-                <button className='text-[14px] font-bold text-[#131105] flex items-center gap-2 hover:underline'>
+            <section className='flex items-center justify-between relative'>
+                <button
+                    onClick={handleLocationClick}
+                    className='text-[14px] font-bold text-[#131105] flex items-center gap-2 hover:underline cursor-pointer'
+                >
                     <Image
                         src="/images/geotag.svg"
                         alt='geotag'
@@ -114,6 +120,48 @@ export default function MainPageSearch() {
                     onClick={handleGetLocation}>
                     Где я?
                 </button>
+                {openModal && (
+                    <div className="absolute top-[30px] border-[1px] border-gray-400 flex items-center justify-center z-50 rounded overflow-hidden">
+                        <div className="bg-white rounded w-[320px] max-w-md shadow-lg">
+                            <form onSubmit={(e) => e.preventDefault()}
+                                className="p-4 flex flex-col items-center justify-center">
+                                <input
+                                    type="text"
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    placeholder="Введите город или адрес"
+                                    className="w-full border-[2px] border-gray-300 p-2 rounded  focus:border-blue-500 transition duration-300 ease-in-out"
+                                />
+                            </form>
+
+                            {loading && <p className="text-gray-500 p-4 bg-amber-50">Загрузка...</p>}
+
+                            {results.length > 0 && (
+                                <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                                    {results.map((result, index) => (
+                                        <div
+                                            key={index}
+                                            className="cursor-pointer m-0 p-2 py-4 rounded hover:bg-gray-100 border-t border-gray-200"
+                                            onClick={() => handleSelectCity(result.city)}
+                                        >
+                                            {result.city}, {result.country}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div className='m-4 flex justify-center items-center'>
+                                <button
+                                    onClick={() => setOpenModal(false)}
+                                    className="text-sm text-black w-full p-2  border border-gray-300 rounded hover:bg-black hover:text-white transition duration-300 ease-in-out"
+                                >
+                                    Закрыть
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+                }
             </section>
 
             <form className='flex w-[456px] items-center justify-between mt-2.5 bg-[#F3F0F3] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[10px] px-4 py-2'>
@@ -130,28 +178,6 @@ export default function MainPageSearch() {
                         height={24} />
                 </button>
             </form>
-
-            <form onSubmit={(e) => e.preventDefault()}>
-                <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Введите город или адрес"
-                    className="border p-2"
-                />
-            </form>
-
-            {loading && <p>Загрузка...</p>}
-
-            {results.length > 0 && (
-                <div className="mt-2">
-                    {results.map((result, index) => (
-                        <div key={index}>
-                            <p>{result.city} {result.country}</p>
-                        </div>
-                    ))}
-                </div>
-            )}
         </section>
     )
 }
