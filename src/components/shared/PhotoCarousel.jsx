@@ -5,13 +5,14 @@ import {
     NextButton,
     usePrevNextButtons
 } from './PhotoCarouselArrowButton'
+import Fade from 'embla-carousel-fade'
 import Autoplay from 'embla-carousel-autoplay'
 import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
 
 const PhotoCarousel = (props) => {
     const { slides, options } = props
-    const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()])
+    const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay(), Fade()])
 
     const onNavButtonClick = useCallback((emblaApi) => {
         const autoplay = emblaApi?.plugins()?.autoplay

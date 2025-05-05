@@ -1,11 +1,13 @@
 import Header from '@/components/layout/Header';
 import BackButton from '@/components/shared/BackButton';
+import YandexMap from '@/components/shared/YandexMap';
 import ModalViewAllPhoto from '@/components/shared/ModalViewAllPhoto';
 import ShareButton from '@/components/shared/ShareButton';
 import Video from '@/components/shared/Video';
 import WorkTime from '@/components/shared/WorkTime';
 import Image from 'next/image';
 import Link from 'next/link';
+import Reviews from '@/components/shared/Reviews';
 
 const data = [
     {
@@ -102,7 +104,6 @@ export default async function page({ params }) {
                         <div className='flex justify-between w-full'>
                             <h2 className='text-[24px] font-bold text-[#131105]'>Фото</h2>
                             <ModalViewAllPhoto />
-
                         </div>
                         <div className='flex flex-wrap justify-start gap-3 py-3'>
                             <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
@@ -114,6 +115,8 @@ export default async function page({ params }) {
                     </section>
                     <WorkTime />
                     <Video />
+                    <YandexMap />
+                    <Reviews />
                 </article>
             </main>
         </>

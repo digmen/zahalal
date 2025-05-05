@@ -7,7 +7,7 @@ export default function Card() {
     const id = 1 // Replace with actual ID or prop
 
     return (
-        <Link href={`/restaurants/${id}`} className='flex flex-col gap-2 items-start justify-start rounded-[10px]'>
+        <Link href={`/details/${id}`} className='flex flex-col gap-2 items-start justify-start rounded-[10px]'>
             <div className='h-[200px] w-full rounded-[10px] overflow-hidden'>
                 <Image
                     src='/images/card.jpg'

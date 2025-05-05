@@ -4,7 +4,7 @@ import PhotoCarousel from './PhotoCarousel'
 
 export default function ModalViewAllPhoto() {
     const [show, setShow] = React.useState(false)
-    const OPTIONS = { loop: true }
+    const OPTIONS = { loop: true, duration: 30 }
     const SLIDE_COUNT = 10
     const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 

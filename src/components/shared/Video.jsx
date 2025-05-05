@@ -5,15 +5,11 @@ export default function VideoPreview() {
     const videoRef = useRef(null)
 
     const handleMouseEnter = () => {
-        if (videoRef.current) {
-            videoRef.current.play()
-        }
+        videoRef.current?.play()
     }
 
     const handleMouseLeave = () => {
-        if (videoRef.current) {
-            videoRef.current.pause()
-        }
+        videoRef.current?.pause()
     }
 
     return (
