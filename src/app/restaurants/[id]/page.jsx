@@ -2,6 +2,8 @@ import Header from '@/components/layout/Header';
 import BackButton from '@/components/shared/BackButton';
 import ModalViewAllPhoto from '@/components/shared/ModalViewAllPhoto';
 import ShareButton from '@/components/shared/ShareButton';
+import Video from '@/components/shared/Video';
+import WorkTime from '@/components/shared/WorkTime';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -110,6 +112,8 @@ export default async function page({ params }) {
                             <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
                         </div>
                     </section>
+                    <WorkTime />
+                    <Video />
                 </article>
             </main>
         </>
