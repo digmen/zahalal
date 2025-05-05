@@ -60,9 +60,7 @@ const EmblaCarousel = (props) => {
           ))}
         </div>
       </div>
-
-
-    </section >
+    </section>
   )
 }
 

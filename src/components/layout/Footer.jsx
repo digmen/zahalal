@@ -4,7 +4,7 @@ import React from 'react'
 export default function Footer() {
     return (
         <footer className=' bg-[#0A2C2C] text-white  px-[150px] py-[50px] h-[300px] w-full'>
-            <article className='grid grid-cols-3 grid-rows-1 items-start'>
+            <article className='grid grid-cols-3 grid-rows-1 gap-10 items-start'>
                 <section className='flex flex-col gap-6'>
                     <h1 className='text-[48px] font-bold'>ZaHalal</h1>
                     <p>Халяльный гид: рестораны, мечети и услуги по всей России</p>
