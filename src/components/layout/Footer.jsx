@@ -3,10 +3,10 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <footer className=' bg-[#0A2C2C] text-white  px-[150px] py-[50px] h-[300px] w-full'>
-            <article className='grid grid-cols-3 grid-rows-1 gap-10 items-start'>
+        <footer className=' bg-[#0A2C2C] text-white px-[150px] py-[50px] h-[300px] w-full lg:px-[40px] md:px-[20px] md:h-[350px] sm:px-[10px] xs:px-[5px]'>
+            <article className='grid grid-cols-3 grid-rows-1 gap-10 items-start md:gap-13'>
                 <section className='flex flex-col gap-6'>
-                    <h1 className='text-[48px] font-bold'>ZaHalal</h1>
+                    <h1 className='text-[48px] font-bold md:text-3xl'>ZaHalal</h1>
                     <p>Халяльный гид: рестораны, мечети и услуги по всей России</p>
                     <span className='text-[#cccccc]'>© 2025 - 2025 ZaHalal</span>
                 </section>

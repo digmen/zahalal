@@ -17,7 +17,7 @@ export default function Card() {
                     className='rounded-[10px] w-full h-[200px] object-cover hover:scale-105 transition-all duration-300 ease-in-out'
                 />
             </div>
-            <span className='text-[20px] font-bold'>
+            <span className='text-[20px] font-bold lg:text-[16px]'>
                 Кафе «Зам Зам»
             </span>
             <p className='text-[14px] font-normal text-[#555555]'>

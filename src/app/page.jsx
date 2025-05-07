@@ -9,19 +9,19 @@ import React from 'react'
 export default function page() {
 
   return (
-    <main className='max-w-[1200px] mx-auto my-0'>
+    <main className='max-w-[1200px] mx-auto my-0 lg:max-w-[1000px] md:max-w-[720px] sm:max-w-[500px] xs:max-w-[400px]'>
       <article className='flex flex-col gap-6 items-center justify-center'>
         <section className='flex flex-col gap-2 items-center justify-center'>
           <Image src="/images/logo.png" alt="logo" width={150} height={100} />
-          <h1 className='text-[#111111] text-[32px] font-bold'>Найдите халяльные рестораны, мечети и сервисы</h1>
+          <h1 className='text-[#111111] text-[32px] font-bold md:text-[24px]'>Найдите халяльные рестораны, мечети и сервисы</h1>
           <p className='text-[#555555] text-[18px] font-normal'>Поиск по всей России</p>
         </section>
         <MainPageSearch />
       </article>
-      <article className='mt-8 gap-9 flex items-start justify-between'>
-        <section className='min-w-[260px] hidden lg:block  shrink-0 sticky top-6 h-fit'>
+      <article className='mt-8 gap-9 flex items-start justify-between lg:gap-4'>
+        <section className='min-w-[260px] hidden lg:block  shrink-0 sticky top-6 h-fit lg:min-w-[230px] md:hidden sm:hidden xs:hidden'>
           <nav className='my-[50px]'>
-            <ul className='flex flex-col items-start justify-between gap-4'>
+            <ul className='flex flex-col items-start justify-between gap-4 lg:gap-2'>
               <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🍽 Еда</li>
               <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🕌 Религия</li>
               <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🛠 Услуги</li>
