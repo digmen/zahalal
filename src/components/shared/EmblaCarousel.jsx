@@ -8,6 +8,7 @@ import {
 import Autoplay from 'embla-carousel-autoplay'
 import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const EmblaCarousel = (props) => {
   const { slides, options } = props
@@ -45,7 +46,7 @@ const EmblaCarousel = (props) => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((index) => (
-            <div className="embla__slide h-[200px] w-full rounded-[10px] overflow-hidden relative" key={index}>
+            <Link href={`trends/${index}`} className="embla__slide cursor-pointer h-[200px] w-full rounded-[10px] overflow-hidden relative" key={index}>
               <Image
                 src='/images/carousel.jpg'
                 alt='img'
@@ -56,7 +57,7 @@ const EmblaCarousel = (props) => {
                 <div className="text-white text-xs leading-[14px] uppercase tracking-[0.4px] font-bold font-satoshi font-feature-['ss02','ss03']">Late night shisha & more</div>
                 <h3 className="text-white text-[18px] leading-6 tracking-[-0.135px] font-bold font-satoshi font-feature-['ss01']">Hookah Lounges</h3>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
