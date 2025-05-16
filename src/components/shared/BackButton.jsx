@@ -6,7 +6,7 @@ export default function BackButton() {
     const router = useRouter()
 
     return (
-        <div className='px-4 pt-4 absolute top-4 left-0 right-0 z-10 '>
+        <div className='px-4 pt-4 absolute top-4 left-0 right-0 z-10 max-lg:px-7'>
             <button
                 onClick={() => router.back()}
                 className='group inline-flex items-center gap-2 justify-center h-10 px-3 sm:px-4 py-2 bg-gray-50 backdrop-blur-sm rounded-lg hover:bg-[#131105] hover:text-white transition-colors'

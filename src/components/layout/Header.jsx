@@ -4,11 +4,11 @@ import Link from 'next/link'
 export default function Header() {
 
     return (
-        <header className='bg-white flex items-center px-[10px] py-[12px] w-full shadow sticky top-0 z-100'>
+        <header className='bg-white flex items-center px-[10px] py-[12px] w-full shadow sticky top-0 z-100 max-md:flex-col max-md:p-0 max-md:pb-3'>
             <Link href='/' className='flex items-center justify-center'>
-                <Image src="/images/logo.png" alt="logo" width={110} height={0} className='ml-[150px]' />
+                <Image src="/images/logo.png" alt="logo" width={110} height={0} className='ml-[140px] max-xl:ml-[40px] max-md:m-0' />
             </Link>
-            <form className='flex w-[456px] items-center justify-between h-11 rounded-full border border-gray-300  mx-auto'>
+            <form className='flex w-[456px] max-md:w-auto items-center justify-between h-11 rounded-full border border-gray-300  mx-auto'>
                 <button className='py-[12px] px-3.5'>
                     <Image
                         src="/images/search.svg"

@@ -25,7 +25,7 @@ export default function Reviews() {
     return (
         <section className="mt-10">
             <h1 className="text-2xl text-black">Отзывы</h1>
-            <div className="flex justify-between items-end border-[#F3F0F3] border-[2px] px-4 py-8 rounded-2xl mt-4">
+            <div className="flex justify-between items-end border-[#F3F0F3] border-[2px] px-4 py-8 rounded-2xl mt-4 max-md:py-4 max-sm:flex-col max-sm:gap-4">
                 <div className='flex gap-4 items-center'>
                     <div>
                         {reviews.length > 0 && (
@@ -55,7 +55,7 @@ export default function Reviews() {
                 </div>
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="text-sm px-4 py-2 cursor-pointer bg-[#1A5D1A] text-white rounded-xl hover:bg-[#1A5D1A]/80 transition duration-200"
+                    className="text-sm px-4 py-2 cursor-pointer bg-[#1A5D1A] text-white rounded-xl hover:bg-[#1A5D1A]/80 transition duration-200 max-sm:w-full"
                     title='Добавить отзыв'
                     aria-label='Добавить отзыв'
                 >

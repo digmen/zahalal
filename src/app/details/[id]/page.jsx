@@ -39,11 +39,18 @@ export default async function page({ params }) {
     return (
         <>
             <Header />
-            <main className='max-w-[960px] mx-auto my-0'>
-                <article className="relative h-[400px]">
+            <main className='max-w-[960px] mx-auto my-0 max-lg:max-w-[720px]'>
+                <article className="relative w-full max-w-[960px] h-[400px] max-xl:h-[400px] max-lg:h-[350px] lg:mx-4">
                     <BackButton />
-                    <Image src={restaurant.imageUrl} alt='bgdetai' width={960} height={400} className='absolute inset-0 object-cover max-w-[960px] h-full mx-auto rounded-none sm:rounded-3xl mt-4' />
+                    <Image
+                        src={restaurant.imageUrl}
+                        alt="bgdetail"
+                        width={960}
+                        height={400}
+                        className="w-full xl:h-[400px] max-xl:h-[400px] max-lg:h-[350px] max-md:m-0 object-cover rounded-none sm:rounded-3xl mt-4"
+                    />
                 </article>
+
                 <article className='py-7 px-4'>
                     <section>
                         <div className='flex items-center justify-between'>
@@ -63,7 +70,7 @@ export default async function page({ params }) {
                         </div>
                     </section>
                     <section className='w-full py-3'>
-                        <div className='flex items-center  gap-4 w-full'>
+                        <div className='flex items-center  gap-4 w-full overflow-scroll'>
                             <button className='group cursor-pointer flex flex-1 items-center justify-center backdrop-blur-sm h-10 hover:bg-[#131105] hover:text-white text-[18px] text-black font-normal bg-[#F3F0F3] p-2 px-4 rounded-lg transition-all duration-300 ease-in-out'>
                                 <Link href={`tel:+7 (999) 117-05-05`}
                                     className='inline-flex gap-1.5 items-center justify-center'
@@ -105,7 +112,7 @@ export default async function page({ params }) {
                             <h2 className='text-[24px] font-bold text-[#131105]'>Фото</h2>
                             <ModalViewAllPhoto />
                         </div>
-                        <div className='flex flex-wrap justify-start gap-3 py-3'>
+                        <div className='flex justify-start gap-3 py-3 overflow-scroll'>
                             <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
                             <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
                             <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />

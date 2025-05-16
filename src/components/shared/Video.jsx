@@ -15,7 +15,7 @@ export default function VideoPreview() {
     return (
         <section>
             <div
-                className="relative aspect-[9/16] w-[350px] bg-[#F5F5F5] rounded-xl mt-4 overflow-hidden"
+                className="relative aspect-[9/16] w-[350px] bg-[#F5F5F5] rounded-xl mt-4 overflow-hidden max-lg:w-[300px] max-md:w-full max-md:aspect-[1/1]"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
