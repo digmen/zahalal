@@ -46,7 +46,7 @@ const EmblaCarousel = (props) => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((index) => (
-            <Link href={`trends/${index}`} className="embla__slide cursor-pointer h-[200px] w-full rounded-[10px] overflow-hidden relative" key={index}>
+            <Link href={`/trends/${index}`} className="embla__slide cursor-pointer h-[200px] w-full rounded-[10px] overflow-hidden relative" key={index}>
               <Image
                 src='/images/carousel.jpg'
                 alt='img'
