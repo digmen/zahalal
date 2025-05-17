@@ -46,13 +46,13 @@ const EmblaCarousel = (props) => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((index) => (
-            <Link href={`/trends/${index}`} className="embla__slide cursor-pointer h-[200px] w-full rounded-[10px] overflow-hidden relative" key={index}>
+            <Link href={`/details/${index}`} className="embla__slide cursor-pointer h-[200px] w-full rounded-[10px] overflow-hidden relative max-lg:h-[150px]" key={index}>
               <Image
                 src='/images/carousel.jpg'
                 alt='img'
                 width={300}
-                height={100}
-                className='rounded-[10px] w-full h-[200px] object-cover hover:scale-105 transition-all duration-300 ease-in-out' />
+                height={0}
+                className='rounded-[10px] w-full h-full object-cover hover:scale-105 transition-all duration-300 ease-in-out' />
               <div className="absolute z-10 bottom-0 left-0 right-0 p-5 flex flex-col gap-2">
                 <div className="text-white text-xs leading-[14px] uppercase tracking-[0.4px] font-bold font-satoshi font-feature-['ss02','ss03']">Late night shisha & more</div>
                 <h3 className="text-white text-[18px] leading-6 tracking-[-0.135px] font-bold font-satoshi font-feature-['ss01']">Hookah Lounges</h3>

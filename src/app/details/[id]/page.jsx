@@ -107,19 +107,7 @@ export default async function page({ params }) {
                         <h2 className='text-[24px] font-bold text-[#131105]'>Описание</h2>
                         <p className='text-[#656565] text-[16px] font-normal leading-6'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut erat nec nisi facilisis tincidunt. Donec ac ligula a nunc facilisis bibendum. Sed euismod, nunc vel tincidunt lacinia, nunc nisl aliquet nunc, eget aliquam nisl nisl eget nunc.</p>
                     </section>
-                    <section className='py-4'>
-                        <div className='flex justify-between w-full'>
-                            <h2 className='text-[24px] font-bold text-[#131105]'>Фото</h2>
-                            <ModalViewAllPhoto />
-                        </div>
-                        <div className='flex justify-start gap-3 py-3 overflow-scroll'>
-                            <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                            <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                            <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                            <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                            <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                        </div>
-                    </section>
+                    <ModalViewAllPhoto />
                     <WorkTime />
                     <Video />
                     <YandexMap />

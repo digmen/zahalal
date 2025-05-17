@@ -33,7 +33,7 @@ const PhotoCarousel = (props) => {
     } = usePrevNextButtons(emblaApi, onNavButtonClick)
 
     return (
-        <section className="flex w-full justify-between h-full mx-7">
+        <section className="flex w-full justify-between h-full m-7">
             <div className="grid grid-cols-1 items-center gap-[0.6rem]">
                 <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
             </div>
@@ -41,13 +41,13 @@ const PhotoCarousel = (props) => {
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container">
                         {slides.map((index) => (
-                            <div className="embla__slide h-[650px] w-full rounded-[10px] overflow-hidden" key={index}>
+                            <div className="embla__slide w-full overflow-hidden h-auto max-h-[80vh]" key={index}>
                                 <Image
                                     src='/images/carousel.jpg'
                                     alt='img'
                                     width={900}
-                                    height={900}
-                                    className='rounded-[10px] w-full h-[650px] object-cover hover:scale-105 transition-all duration-300 ease-in-out' />
+                                    height={0}
+                                    className='w-full h-auto max-h-[80vh] object-contain' />
                             </div>
                         ))}
                     </div>

@@ -94,7 +94,7 @@ export default function MainPageSearch() {
     }
 
     return (
-        <section>
+        <section className='max-md:w-full max-md:px-6'>
             <section className='flex items-center justify-between relative'>
                 <button
                     onClick={handleLocationClick}
@@ -114,7 +114,6 @@ export default function MainPageSearch() {
                         className='rotate-180'
                     />
                 </button>
-
                 <button
                     className='text-[14px] font-bold text-[#131105] hover:underline'
                     onClick={handleGetLocation}>
@@ -164,7 +163,7 @@ export default function MainPageSearch() {
                 }
             </section>
 
-            <form className='flex w-[456px] items-center justify-between mt-2.5 bg-[#F3F0F3] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[10px] px-4 py-2'>
+            <form className='max-md:w-full flex w-[456px] items-center justify-between mt-2.5 bg-[#F3F0F3] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[10px] px-4 py-2'>
                 <input
                     type="text"
                     placeholder='Поиск ресторанов, мечетей или услуг'
