@@ -3,6 +3,7 @@ import "../styles/globals.css";
 
 import { Open_Sans } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { ReduxProvider } from "@/store/provider";
 
 const opensans = Open_Sans({
   subsets: ["latin"],
@@ -21,7 +22,9 @@ export default function RootLayout({ children }) {
         <Toaster
           position="bottom-left"
         />
-        {children}
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
         <Footer />
       </body>
     </html>

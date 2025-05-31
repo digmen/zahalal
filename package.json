@@ -11,6 +11,8 @@
   "dependencies": {
     "@headlessui/react": "^2.2.2",
     "@pbe/react-yandex-maps": "^1.2.5",
+    "@reduxjs/toolkit": "^2.8.2",
+    "axios": "^1.9.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-fade": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
@@ -18,7 +20,8 @@
     "next": "15.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hot-toast": "^2.5.2"
+    "react-hot-toast": "^2.5.2",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

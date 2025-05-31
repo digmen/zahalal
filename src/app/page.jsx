@@ -1,12 +1,21 @@
+import { API_URL } from '@/api/Api'
 import Card from '@/components/shared/Card'
 import Carousel from '@/components/shared/Carousel'
+import Categories from '@/components/shared/Categories'
 import MainPageSearch from '@/components/shared/MainPageSearch'
 import Image from 'next/image'
-import React from 'react'
 
+export default async function page({ searchParams }) {
 
+  const selectedId = searchParams?.cat || null;
 
-export default function page() {
+  const res = await fetch(`${API_URL}cards/?cat_id=${selectedId ?? ''}`, {
+    cache: 'force-cache',
+  });
+
+  const data = await res.json();
+  const cards = data.results;
+
 
   return (
     <main className='max-w-[1200px] mx-auto my-0 max-xl:max-w-[960px] '>
@@ -19,17 +28,7 @@ export default function page() {
         <MainPageSearch />
       </article>
       <article className='mt-8 gap-9 flex items-start justify-between lg:gap-4 max-lg:px-6 max-sm:px-1'>
-        <section className='min-w-[260px] hidden lg:block  shrink-0 sticky top-6 h-fit lg:min-w-[230px] max-md:hidden'>
-          <nav className='my-[50px]'>
-            <ul className='flex flex-col items-start justify-between gap-4 lg:gap-2'>
-              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🍽 Еда</li>
-              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🕌 Религия</li>
-              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>🛠 Услуги</li>
-              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>💼 Работа и бизнес</li>
-              <li className='text-[16px] text-black font-normal cursor-pointer bg-[#f6f6f6] w-full p-2.5 rounded-2xl active:bg-[#1A5D1A] shadow hover:scale-105 transition-all duration-300 ease-in-out'>👨‍👩‍👧‍👦 Семья и дети</li>
-            </ul>
-          </nav>
-        </section>
+        <Categories />
         <section className='flex flex-col gap-6 w-full my-[50px]'>
           <section>
             <Carousel />
@@ -50,32 +49,7 @@ export default function page() {
               </button>
             </div>
             <section className='grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1'>
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
+              <Card cards={cards} />
             </section>
           </section>
         </section>
