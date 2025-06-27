@@ -2,21 +2,56 @@
 import React, { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Star } from 'lucide-react'
+import toast from 'react-hot-toast'
+import { API_URL } from '@/api/Api'
 
-export default function Reviews() {
+export default function Reviews({ reviews: initialReviews, cardId, averageRating }) {
     const [isOpen, setIsOpen] = useState(false)
-    const [reviews, setReviews] = useState([
-        { name: 'Садаф Нурс', rating: 2, text: 'Очень хорошая еда! Я целый год не прикасался к еде из магазинов (по разным причинам, включая слухи, что они не халяльные), пока не увидел отзывы об этом и не решил попробовать. Куриный шашлык великолепен. Постная куриная грудка, рис' },
-        { name: 'Самана Мухтар', rating: 1, text: 'Определенно рекомендую, очень хорошая еда из супермаркета, определенно не пожалеете!' },
-    ])
+    const [reviews, setReviews] = useState(initialReviews)
+
     const [form, setForm] = useState({ name: '', rating: 0, text: '' })
 
-    const handleSubmit = () => {
-        if (!form.name || !form.rating || !form.text) return
-        setReviews([...reviews, form])
-        setForm({ name: '', rating: 0, text: '' })
-        setIsOpen(false)
+    const handleSubmit = async () => {
+        if (!form.name || !form.rating || !form.text) {
+            toast.error('Заполните все поля')
+            return
+        }
+
+        try {
+            const response = await fetch(`${API_URL}reviews/create/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'X-CSRFTOKEN': 'a1qY6jywJ6OBkFadintb987K6V7F9JXxEftS8FMD5wDZPD2tIEpEypE53kiWgVwV',
+                },
+                body: JSON.stringify({
+                    author: form.name,
+                    review: form.text,
+                    stars: form.rating,
+                    card: cardId,
+                }),
+            })
+
+            if (!response.ok) throw new Error('Ошибка при отправке отзыва')
+
+            const newReview = {
+                name: form.name,
+                text: form.text,
+                rating: form.rating,
+            }
+
+            setReviews([...reviews, newReview])
+            toast.success('Отзыв добавлен!')
+            setForm({ name: '', rating: 0, text: '' })
+            setIsOpen(false)
+        } catch (err) {
+            toast.error('Не удалось отправить отзыв')
+            console.error(err)
+        }
     }
+
+
 
     const returningUsersPercent = Math.round(
         (reviews.filter((r) => r.rating >= 4).length / reviews.length) * 100
@@ -24,15 +59,13 @@ export default function Reviews() {
 
     return (
         <section className="mt-10">
-            <h1 className="text-2xl text-black">Отзывы</h1>
-            <div className="flex justify-between items-end border-[#F3F0F3] border-[2px] px-4 py-8 rounded-2xl mt-4 max-md:py-4 max-sm:flex-col max-sm:gap-4">
+            <h1 className="max-sm:text-[18px] text-lg font-semibold">Отзывы</h1>
+            <div className="flex justify-between items-center border-[#F3F0F3] border-[2px] px-4 py-8 rounded-2xl mt-4 max-md:py-4 max-sm:flex-col max-sm:gap-4">
                 <div className='flex gap-4 items-center'>
-                    <div>
-                        {reviews.length > 0 && (
-                            <div className="px-2 py-1 mt-2">
-                                <span className="text-[24px] text-black">{reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length}</span>
-                            </div>
-                        )}
+                    <div className="px-2 py-1 mt-2">
+                        <span className="text-[24px] text-black">
+                            {averageRating || '0'}
+                        </span>
                     </div>
                     <div className='flex flex-col gap-2'>
                         <div className="flex items-center gap-2">
@@ -40,7 +73,7 @@ export default function Reviews() {
                                 <Star
                                     key={i}
                                     size={24}
-                                    fill={i < Math.round(reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length) ? 'red' : 'none'}
+                                    fill={i < Math.round(averageRating) ? 'red' : 'none'}
                                     stroke="red"
                                 />
                             ))}
@@ -49,7 +82,7 @@ export default function Reviews() {
                             На основе {reviews.length} отзывов
                         </span>
                         <span className="text-[16px] text-[#666]">
-                            {returningUsersPercent}% готовы вернуться
+                            {returningUsersPercent || '0'}% готовы вернуться
                         </span>
                     </div>
                 </div>
@@ -70,17 +103,13 @@ export default function Reviews() {
                     reviews.map((r, idx) => (
                         <div key={idx} className="border-b py-4 last:border-none">
                             <div className="flex justify-between items-center">
-                                <p className="font-semibold text-[#333]">{r.name}</p>
+                                <p className="font-semibold text-[#333]">{r.author}</p>
                                 <div className="flex items-center gap-1 bg-[#F3F0F3] rounded px-2 py-1">
-                                    <Star
-                                        size={16}
-                                        fill='red'
-                                        stroke="red"
-                                    />
-                                    <span className="text-[16px] text-black">{r.rating}</span>
+                                    <Star size={16} fill='red' stroke="red" />
+                                    <span className="text-[16px] text-black">{r.stars}</span>
                                 </div>
                             </div>
-                            <p className="text-sm text-black mt-1 w-[80%]">{r.text}</p>
+                            <p className="text-sm text-black mt-1 w-[80%]">{r.review}</p>
                         </div>
                     ))
                 )}

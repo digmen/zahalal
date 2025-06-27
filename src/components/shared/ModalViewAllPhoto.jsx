@@ -3,11 +3,9 @@ import React, { useEffect } from 'react'
 import PhotoCarousel from './PhotoCarousel'
 import Image from 'next/image'
 
-export default function ModalViewAllPhoto() {
+export default function ModalViewAllPhoto({ restaurantPhoto }) {
     const [show, setShow] = React.useState(false)
     const OPTIONS = { loop: true, duration: 30 }
-    const SLIDE_COUNT = 10
-    const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
     const handleOpenModalViewAllPhoto = () => {
         setShow(true)
@@ -28,7 +26,7 @@ export default function ModalViewAllPhoto() {
     return (
         <section className='py-4'>
             <div className='flex justify-between w-full'>
-                <h2 className='text-[24px] font-bold text-[#131105]'>Фото</h2>
+                <h2 className='max-sm:text-[18px] text-[24px] font-bold text-[#131105]'>Фото</h2>
                 {show && (
                     <section className='fixed inset-0 z-1000 bg-opacity-80 bg-black backdrop-blur-sm'>
                         <div onClick={(e) => e.stopPropagation()} className='absolute right-0 flex justify-end pr-3 pt-3'>
@@ -43,24 +41,35 @@ export default function ModalViewAllPhoto() {
                             </button>
                         </div>
                         <div className='flex items-center justify-center h-screen'>
-                            <PhotoCarousel slides={SLIDES} options={OPTIONS} />
+                            <PhotoCarousel options={OPTIONS} restaurantPhoto={restaurantPhoto} />
                         </div>
                     </section>
                 )
                 }
                 <button
-                    className='cursor-pointer'
+                    className='cursor-pointer max-sm:text-[14px]'
                     onClick={handleOpenModalViewAllPhoto}
                 >
                     Посмотреть все фотки
                 </button>
             </div>
-            <div className='flex justify-start gap-3 py-3 overflow-scroll'>
-                <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
-                <Image src='/images/bgdetai.png' alt='bgdetai' width={160} height={160} className='rounded-lg h-[160px] w-[160px] object-cover ' />
+            <div className='flex justify-start gap-3 py-3 overflow-x-scroll'>
+                {restaurantPhoto && restaurantPhoto.length > 0 ? (
+                    restaurantPhoto.map((photo, index) =>
+                        photo.image ? (
+                            <Image
+                                key={index}
+                                src={photo.image}
+                                alt='bgdetai'
+                                width={160}
+                                height={160}
+                                className='rounded-lg h-[160px] w-[160px] object-cover'
+                            />
+                        ) : null
+                    )
+                ) : (
+                    <p className='text-center text-gray-500'>Нет доступных фотографий</p>
+                )}
             </div>
         </section>
     )

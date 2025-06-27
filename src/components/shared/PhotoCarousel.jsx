@@ -11,7 +11,8 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
 
 const PhotoCarousel = (props) => {
-    const { slides, options } = props
+    const { options, restaurantPhoto } = props
+
     const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay(), Fade()])
 
     const onNavButtonClick = useCallback((emblaApi) => {
@@ -33,21 +34,21 @@ const PhotoCarousel = (props) => {
     } = usePrevNextButtons(emblaApi, onNavButtonClick)
 
     return (
-        <section className="flex w-full justify-between h-full m-7">
+        <section className="flex w-full justify-between h-full m-7 max-sm:m-0">
             <div className="grid grid-cols-1 items-center gap-[0.6rem]">
                 <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
             </div>
             <section className='photo_carousel'>
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container">
-                        {slides.map((index) => (
-                            <div className="embla__slide w-full overflow-hidden h-auto max-h-[80vh]" key={index}>
+                        {restaurantPhoto.map((item, index) => (
+                            <div className="embla__slide w-6/12 overflow-hidden h-auto max-h-[80vh] flex items-center justify-center" key={index}>
                                 <Image
-                                    src='/images/carousel.jpg'
+                                    src={item.image}
                                     alt='img'
-                                    width={900}
+                                    width={400}
                                     height={0}
-                                    className='w-full h-auto max-h-[80vh] object-contain' />
+                                    className='max-sm:w-[250px] w-[400px] h-auto max-h-[80vh] object-contain' />
                             </div>
                         ))}
                     </div>

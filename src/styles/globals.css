@@ -2,8 +2,6 @@
 
 * {
     scroll-behavior: smooth;
-    /* scrollbar-width: none;
-    -ms-overflow-style: none; */
 }
 
 input:focus {
@@ -14,13 +12,8 @@ input:focus-visible {
     outline: none;
 }
 
-/* *::-webkit-scrollbar {
-    display: none;
-} */
-
 .embla {
     max-width: 60rem;
-    margin: auto;
     --slide-height: 19rem;
     --slide-spacing: 0.7rem;
     --slide-size: 33%;
@@ -29,10 +22,9 @@ input:focus-visible {
 @media (max-width:456px) {
     .embla {
         max-width: 60rem;
-        margin: auto;
         --slide-height: 19rem;
         --slide-spacing: 0.7rem;
-        --slide-size: 80%;
+        --slide-size: 100%;
     }
 }
 
@@ -54,6 +46,7 @@ input:focus-visible {
 }
 
 .embla__controls {
+    width: 100%;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;

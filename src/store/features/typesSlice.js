@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '@/api/Api';
 
-export const fetchCategories = createAsyncThunk(
-    'categories/fetchCategories',
-    async () => {
-        const response = await axios.get(`${API_URL}categories/`);
+export const fetchTypes = createAsyncThunk(
+    'types/fetchTypes',
+    async (cat_id) => {
+        const response = await axios.get(`${API_URL}cards/types?cat_id=${cat_id}`);
         return response.data;
     }
 );
 
-const categoriesSlice = createSlice({
-    name: 'categories',
+const typesSlice = createSlice({
+    name: 'types',
     initialState: {
         list: [],
         selectedId: null,
@@ -25,20 +25,20 @@ const categoriesSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchCategories.pending, (state) => {
+            .addCase(fetchTypes.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(fetchCategories.fulfilled, (state, action) => {
+            .addCase(fetchTypes.fulfilled, (state, action) => {
                 state.list = action.payload;
                 state.selectedId = action.payload[0]?.id || null;
                 state.loading = false;
             })
-            .addCase(fetchCategories.rejected, (state, action) => {
+            .addCase(fetchTypes.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });
     },
 });
 
-export const { setSelectedId } = categoriesSlice.actions;
-export default categoriesSlice.reducer;
+export const { setSelectedId } = typesSlice.actions;
+export default typesSlice.reducer;
