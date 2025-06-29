@@ -51,6 +51,13 @@ export default function Categories({ selectedCatId }) {
                         className={`cursor-pointer w-full p-2.5 px-5 rounded-2xl shadow transition-all duration-300 ease-in-out
                             ${String(selectedCatId) === 'news' ? 'bg-green-700 text-white' : 'bg-[#f6f6f6]'}`}
                     >
+                        <Image
+                            src='/images/news.png'
+                            alt='news icon'
+                            width={24}
+                            height={24}
+                            className='inline-block mr-2 w-[24px] h-[24px]'
+                        />
                         Новости
                     </li>
                 </ul>
