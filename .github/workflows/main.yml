@@ -50,7 +50,7 @@ jobs:
 
             # Устанавливаем зависимости
             npm ci --production
-
+            npm i
             # Собираем проект
             npm run build
 
