@@ -4,6 +4,7 @@ import Card from '@/components/shared/Card';
 import Carousel from '@/components/shared/Carousel';
 import Categories from '@/components/shared/Categories';
 import MainPageSearch from '@/components/shared/MainPageSearch';
+import NewsCard from '@/components/shared/NewsCard';
 import Type from '@/components/shared/Type';
 
 export default async function Page({ searchParams }) {
@@ -21,6 +22,29 @@ export default async function Page({ searchParams }) {
   // 2. Определяем выбранную категорию
   const firstCategoryId = categoriesData && categoriesData.length > 0 ? categoriesData[0].id.toString() : null;
   const selectedCatId = resolvedSearchParams?.cat || firstCategoryId;
+
+  if (selectedCatId === 'news') {
+    // 1. Получаем новости
+    const newsRes = await fetch(`${API_URL}news/`, { cache: 'no-cache' });
+    const newsData = await newsRes.json();
+
+    return (
+      <main className='max-w-[1200px] mx-auto my-0 max-xl:max-w-[960px]'>
+        <header>
+          <BurgerMenu selectedCatId={selectedCatId} />
+        </header>
+        <MainPageSearch searchParams={resolvedSearchParams} />
+        <article className='mt-8 gap-9 flex items-start justify-between lg:gap-4 max-lg:px-6 max-sm:px-4'>
+          <Categories selectedCatId={selectedCatId} />
+          <section className='flex flex-col gap-6 w-full my-[50px]'>
+            <section className='flex flex-col gap-6 w-full'>
+              <NewsCard cards={newsData} />
+            </section>
+          </section>
+        </article>
+      </main>
+    );
+  }
 
   if (!selectedCatId) {
     return (

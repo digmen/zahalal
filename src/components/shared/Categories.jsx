@@ -20,6 +20,11 @@ export default function Categories({ selectedCatId }) {
         router.push(`/?cat=${id}`);
     };
 
+    const goNews = () => {
+        dispatch(setSelectedId('news'));
+        router.push(`/?cat=news`);
+    };
+
     return (
         <section className='min-w-[260px] hidden lg:block shrink-0 sticky top-6 h-fit'>
             <nav className='my-[50px]'>
@@ -41,6 +46,13 @@ export default function Categories({ selectedCatId }) {
                             {item.name}
                         </li>
                     ))}
+                    <li
+                        onClick={() => goNews()}
+                        className={`cursor-pointer w-full p-2.5 px-5 rounded-2xl shadow transition-all duration-300 ease-in-out
+                            ${String(selectedCatId) === 'news' ? 'bg-green-700 text-white' : 'bg-[#f6f6f6]'}`}
+                    >
+                        Новости
+                    </li>
                 </ul>
             </nav>
         </section>
