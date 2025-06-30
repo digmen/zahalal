@@ -13,6 +13,9 @@ const opensans = Open_Sans({
 export const metadata = {
   title: "Zahalal",
   description: "Халяльный гид: рестораны, мечети и услуги по всей России",
+  icons: {
+    icon: '/images/logo.png', // путь до иконки в public
+  }
 };
 
 export default function RootLayout({ children }) {
