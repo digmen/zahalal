@@ -16,6 +16,8 @@ export default function MainPageSearch() {
     const [querySearcher, setQuerySearcher] = useState('')
     const [searchResults, setSearchResults] = useState([])
 
+    const YANDEX_API_KEY = '71b433de-5367-42b9-8938-4bc5cf002f63';
+
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             if (querySearcher.trim()) {
@@ -44,32 +46,25 @@ export default function MainPageSearch() {
         }
     }
 
-
     const handleGetLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (position) => {
-                const { latitude, longitude } = position.coords
-
+                const { latitude, longitude } = position.coords;
                 try {
-                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=ru`,
-                        {
-                            headers: {
-                                'User-Agent': 'zahalal/1.0 (https://zahalal.ru;)'
-                            }
-                        }
-                    )
-                    const data = await res.json()
-                    const address = data.address
-
+                    const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${YANDEX_API_KEY}&geocode=${longitude},${latitude}&format=json&lang=ru_RU`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    // Вытаскиваем адрес из ответа Яндекса
+                    const geoObject = data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
+                    const address = geoObject?.metaDataProperty?.GeocoderMetaData?.Address;
                     setLocationData({
-                        city: (address.city || address.town || address.village || address.county || '').replace(/^город\s+/i, ''),
-                        country: address.country || '',
-                        district: address.city_district || '',
-                        street: address.road || '',
-                        houseNumber: address.house_number || '',
-                        country: address.country || '',
-                        postcode: address.postcode || '',
-                    })
+                        city: address?.Components?.find(x => x.kind === 'locality')?.name || '',
+                        country: address?.Components?.find(x => x.kind === 'country')?.name || '',
+                        district: address?.Components?.find(x => x.kind === 'district')?.name || '',
+                        street: address?.Components?.find(x => x.kind === 'street')?.name || '',
+                        houseNumber: address?.Components?.find(x => x.kind === 'house')?.name || '',
+                        postcode: address?.postal_code || '',
+                    });
                 } catch (error) {
                     console.error('Ошибка при обратном геокодировании:', error)
                 }
@@ -78,6 +73,7 @@ export default function MainPageSearch() {
             alert('Геолокация не поддерживается')
         }
     }
+
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -90,32 +86,53 @@ export default function MainPageSearch() {
     }, [query])
 
     const handleSearch = async () => {
-        setLoading(true)
-
+        setLoading(true);
         try {
-            const res = await fetch(
-                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&accept-language=ru&limit=100&countrycodes=ru`
-            )
-            const data = await res.json()
-            const filteredData = data
-                .filter((item) => item.address?.country === 'Россия')
+            const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${YANDEX_API_KEY}&geocode=${encodeURIComponent(query + ', Россия')}&format=json&lang=ru_RU`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const members = data.response.GeoObjectCollection.featureMember;
 
-            const filteredResults = filteredData
-                .map((item) => ({
-                    city: item.address.city || item.address.village,
-                    country: item.address.country || '',
-                }))
-                .filter((item, index, self) =>
-                    item.city && self.findIndex(r => r.city === item.city && r.country === item.country) === index
-                )
+            const filteredResults = members.map((item) => {
+                const geo = item.GeoObject;
+                const address = geo.metaDataProperty.GeocoderMetaData.Address;
+                let city = '';
+                let country = '';
+                if (address?.Components) {
+                    city = address.Components.find(x => x.kind === 'locality')?.name ||
+                        [...address.Components].reverse().find(x => x.kind === 'province')?.name ||
+                        geo.name || '';
+                    country = address.Components.find(x => x.kind === 'country')?.name || '';
+                } else {
+                    city = geo.name || '';
+                    country = geo.description || '';
+                }
+                return { city, country };
+            }).filter(item => item.city);
 
-            setResults(filteredResults)
+            // 1. Оставляем только совпадающие с введённым текстом
+            const inputValue = query.trim().toLowerCase();
+
+            const strictlyFilteredResults = filteredResults
+                .filter(item =>
+                    item.city.toLowerCase().includes(inputValue) && item.country === 'Россия'
+                );
+
+            // 2. Убираем дубли по названию города и страны
+            const uniqueResults = strictlyFilteredResults.filter(
+                (item, index, self) =>
+                    self.findIndex(r => r.city === item.city && r.country === item.country) === index
+            );
+
+            setResults(uniqueResults);
+
+
         } catch (error) {
-            setResults([])
+            setResults([]);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const handleLocationClick = () => {
         setOpenModal(true)
