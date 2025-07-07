@@ -21,6 +21,9 @@ export default function Footer() {
                     <h3 className='text-[24px] font-bold'>Соцсети</h3>
                     <Link href="/">📸 Instagram</Link>
                     <Link href="/">🎵 TikTok</Link>
+                    <span>
+                        Meta, которой принадлежат Instagram и Facebook, признана экстремистской в России
+                    </span>
                 </section>
             </article>
         </footer>

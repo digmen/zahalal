@@ -32,7 +32,7 @@ export default function VideoPreview({ restaurantVideo }) {
                 restaurantVideo.map((video, index) => (
                     <div
                         key={video.id || index}
-                        className="relative aspect-[9/16] w-[350px] bg-[#F5F5F5] rounded-xl mt-4 overflow-hidden max-lg:w-[300px] max-md:w-full max-md:aspect-[1/1]"
+                        className="relative aspect-[9/9] w-[350px] bg-[#F5F5F5] rounded-xl mt-4 overflow-hidden max-lg:w-[300px] max-md:w-full max-md:aspect-[1/1]"
                         onMouseEnter={() => handleMouseEnter(index)}
                         onMouseLeave={() => handleMouseLeave(index)}
                     >

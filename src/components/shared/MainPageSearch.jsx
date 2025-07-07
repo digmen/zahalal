@@ -1,9 +1,13 @@
 'use client'
-import { API_URL } from '@/api/Api';
+import { API_URL } from '@/api/Api'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function MainPageSearch() {
+    const router = useRouter()
+    const searchParams = useSearchParams()
+
     const [locationData, setLocationData] = useState({
         city: '',
         country: '',
@@ -14,143 +18,132 @@ export default function MainPageSearch() {
     const [loading, setLoading] = useState(false)
 
     const [querySearcher, setQuerySearcher] = useState('')
-    const [searchResults, setSearchResults] = useState([])
 
-    const YANDEX_API_KEY = '71b433de-5367-42b9-8938-4bc5cf002f63';
+    const YANDEX_API_KEY = '71b433de-5367-42b9-8938-4bc5cf002f63'
 
+    // --- Инициализация из searchParams ---
+    useEffect(() => {
+        const city = searchParams.get('city') || ''
+        const country = searchParams.get('country') || ''
+        const search = searchParams.get('search') || ''
+        setLocationData(prev => ({ ...prev, city, country }))
+        setQuerySearcher(search)
+    }, [])
+
+    // --- Обновление searchParams при смене города или поиска ---
+    useEffect(() => {
+        if (!locationData.city && !querySearcher) return
+        const params = new URLSearchParams()
+        if (locationData.city) params.set('city', locationData.city)
+        if (querySearcher) params.set('search', querySearcher)
+        router.replace(`?${params.toString()}`)
+    }, [locationData.city, locationData.country, querySearcher])
+
+
+    // --- Поиск города по запросу в модалке ---
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            if (querySearcher.trim()) {
-                searchCards()
+            if (query.trim()) {
+                handleSearch()
+            } else {
+                setResults([])
             }
-        }, 500)
-
+        }, 400)
         return () => clearTimeout(timeoutId)
-    }, [querySearcher])
+    }, [query])
 
-    const searchCards = async () => {
+    // --- Поиск городов через Яндекс ---
+    const handleSearch = async () => {
         setLoading(true)
         try {
-            const url = locationData.city
-                ? `${API_URL}cards/searcher?city=${encodeURIComponent(locationData.city)}&search=${encodeURIComponent(querySearcher)}`
-                : `${API_URL}cards/searcher?search=${encodeURIComponent(querySearcher)}`
-
+            const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${YANDEX_API_KEY}&geocode=${encodeURIComponent(query + ', Россия')}&format=json&lang=ru_RU`
             const res = await fetch(url)
             const data = await res.json()
-            setSearchResults(data)
-        } catch (error) {
-            console.error('Ошибка поиска:', error)
-            setSearchResults([])
+            const members = data.response.GeoObjectCollection.featureMember || []
+
+            const filteredResults = members.map((item) => {
+                const geo = item.GeoObject
+                const address = geo.metaDataProperty.GeocoderMetaData.Address
+                let city = ''
+                let country = ''
+                if (address?.Components) {
+                    city = address.Components.find(x => x.kind === 'locality')?.name ||
+                        [...address.Components].reverse().find(x => x.kind === 'province')?.name ||
+                        geo.name || ''
+                    country = address.Components.find(x => x.kind === 'country')?.name || ''
+                } else {
+                    city = geo.name || ''
+                    country = geo.description || ''
+                }
+                return { city, country }
+            }).filter(item => item.city)
+
+            const inputValue = query.trim().toLowerCase()
+            const strictlyFilteredResults = filteredResults
+                .filter(item =>
+                    item.city.toLowerCase().includes(inputValue) && item.country === 'Россия'
+                )
+            const uniqueResults = strictlyFilteredResults.filter(
+                (item, index, self) =>
+                    self.findIndex(r => r.city === item.city && r.country === item.country) === index
+            )
+            setResults(uniqueResults)
+        } catch {
+            setResults([])
         } finally {
             setLoading(false)
         }
     }
 
+    // --- Выбор города из списка ---
+    const handleSelectCity = ({ city, country }) => {
+        setLocationData(prev => ({ ...prev, city, country }))
+        setOpenModal(false)
+        setQuery('')
+        setResults([])
+    }
+
+    // --- Получить город по геолокации ---
     const handleGetLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (position) => {
-                const { latitude, longitude } = position.coords;
+                const { latitude, longitude } = position.coords
                 try {
-                    const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${YANDEX_API_KEY}&geocode=${longitude},${latitude}&format=json&lang=ru_RU`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    // Вытаскиваем адрес из ответа Яндекса
-                    const geoObject = data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
-                    const address = geoObject?.metaDataProperty?.GeocoderMetaData?.Address;
-                    setLocationData({
+                    const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${YANDEX_API_KEY}&geocode=${longitude},${latitude}&format=json&lang=ru_RU`
+                    const res = await fetch(url)
+                    const data = await res.json()
+                    const geoObject = data.response.GeoObjectCollection.featureMember[0]?.GeoObject
+                    const address = geoObject?.metaDataProperty?.GeocoderMetaData?.Address
+                    setLocationData(prev => ({
+                        ...prev,
                         city: address?.Components?.find(x => x.kind === 'locality')?.name || '',
                         country: address?.Components?.find(x => x.kind === 'country')?.name || '',
-                        district: address?.Components?.find(x => x.kind === 'district')?.name || '',
-                        street: address?.Components?.find(x => x.kind === 'street')?.name || '',
-                        houseNumber: address?.Components?.find(x => x.kind === 'house')?.name || '',
-                        postcode: address?.postal_code || '',
-                    });
-                } catch (error) {
-                    console.error('Ошибка при обратном геокодировании:', error)
-                }
+                    }))
+                } catch { }
             })
         } else {
             alert('Геолокация не поддерживается')
         }
     }
 
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (query.trim()) {
-                handleSearch()
-            }
-        }, 500)
-
-        return () => clearTimeout(timeoutId)
-    }, [query])
-
-    const handleSearch = async () => {
-        setLoading(true);
-        try {
-            const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${YANDEX_API_KEY}&geocode=${encodeURIComponent(query + ', Россия')}&format=json&lang=ru_RU`;
-            const res = await fetch(url);
-            const data = await res.json();
-            const members = data.response.GeoObjectCollection.featureMember;
-
-            const filteredResults = members.map((item) => {
-                const geo = item.GeoObject;
-                const address = geo.metaDataProperty.GeocoderMetaData.Address;
-                let city = '';
-                let country = '';
-                if (address?.Components) {
-                    city = address.Components.find(x => x.kind === 'locality')?.name ||
-                        [...address.Components].reverse().find(x => x.kind === 'province')?.name ||
-                        geo.name || '';
-                    country = address.Components.find(x => x.kind === 'country')?.name || '';
-                } else {
-                    city = geo.name || '';
-                    country = geo.description || '';
-                }
-                return { city, country };
-            }).filter(item => item.city);
-
-            // 1. Оставляем только совпадающие с введённым текстом
-            const inputValue = query.trim().toLowerCase();
-
-            const strictlyFilteredResults = filteredResults
-                .filter(item =>
-                    item.city.toLowerCase().includes(inputValue) && item.country === 'Россия'
-                );
-
-            // 2. Убираем дубли по названию города и страны
-            const uniqueResults = strictlyFilteredResults.filter(
-                (item, index, self) =>
-                    self.findIndex(r => r.city === item.city && r.country === item.country) === index
-            );
-
-            setResults(uniqueResults);
-
-
-        } catch (error) {
-            setResults([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleLocationClick = () => {
-        setOpenModal(true)
+    // --- Сброс города и страны ---
+    const handleClearLocation = () => {
+        setLocationData({ city: '', country: '' })
+        // Если хочешь убрать и из searchParams после сброса:
+        const params = new URLSearchParams()
+        if (querySearcher) params.set('search', querySearcher)
+        router.replace(`?${params.toString()}`)
     }
 
-    const handleSelectCity = ({ city, country }) => {
-        setLocationData((prev) => ({ ...prev, city, country }))
-        setOpenModal(false)
-        setQuery('')
-        setResults([])
+    // --- Сброс поиска ---
+    const handleClearSearch = () => {
+        setQuerySearcher('')
+        // Если хочешь убрать и из searchParams после сброса:
+        const params = new URLSearchParams()
+        if (locationData.city) params.set('city', locationData.city)
+        if (locationData.country) params.set('country', locationData.country)
+        router.replace(`?${params.toString()}`)
     }
-
-    const handleCloseModal = () => {
-        setOpenModal(false)
-        setQuery('')
-        setResults([])
-    }
-
 
     return (
         <article className='flex flex-col gap-6 items-center justify-center'>
@@ -172,26 +165,37 @@ export default function MainPageSearch() {
             <section className='max-md:w-full max-md:px-6'>
                 <section className='flex items-center justify-between relative'>
                     {locationData?.city || locationData?.country ? (
-                        <button
-                            onClick={handleLocationClick}
-                            className='text-[14px] font-bold text-[#131105] flex items-center gap-2 hover:underline cursor-pointer'>
-                            <Image
-                                src="/images/geotag.svg"
-                                alt='geotag'
-                                width={24}
-                                height={24} />
-                            {locationData.city}, {locationData.country}
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setOpenModal(true)}
+                                className='text-[14px] font-bold text-[#131105] flex items-center gap-2 hover:underline cursor-pointer'
+                            >
+                                <Image
+                                    src="/images/geotag.svg"
+                                    alt='geotag'
+                                    width={24}
+                                    height={24}
+                                />
+                                {locationData.city}, {locationData.country}
+                            </button>
+                            <button
+                                className='ml-2 text-gray-400 hover:text-black transition text-lg'
+                                onClick={handleClearLocation}
+                                aria-label='Сбросить город'
+                                type="button"
+                            >×</button>
+                        </div>
                     ) : (
                         <button
-                            onClick={handleLocationClick}
+                            onClick={() => setOpenModal(true)}
                             className='text-[14px] font-bold text-[#131105] flex items-center gap-2 hover:underline cursor-pointer'
                         >
                             <Image
                                 src="/images/geotag.svg"
                                 alt='geotag'
                                 width={24}
-                                height={24} />
+                                height={24}
+                            />
                             Где вы находитесь?
                             <Image
                                 src="/images/arrow.svg"
@@ -210,19 +214,17 @@ export default function MainPageSearch() {
                     {openModal && (
                         <div className="absolute top-[30px] border-[1px] border-gray-400 flex items-center justify-center z-50 rounded overflow-hidden">
                             <div className="bg-white rounded w-[320px] max-w-md shadow-lg">
-                                <form onSubmit={(e) => e.preventDefault()}
+                                <form onSubmit={e => e.preventDefault()}
                                     className="p-4 flex flex-col items-center justify-center">
                                     <input
                                         type="text"
                                         value={query}
-                                        onChange={(e) => setQuery(e.target.value)}
+                                        onChange={e => setQuery(e.target.value)}
                                         placeholder="Введите город или адрес"
                                         className="w-full border-[2px] border-gray-300 p-2 rounded  focus:border-blue-500 transition duration-300 ease-in-out"
                                     />
                                 </form>
-
                                 {loading && <p className="text-gray-500 p-4 bg-amber-50">Загрузка...</p>}
-
                                 {!loading && query.trim() && (
                                     results.length > 0 ? (
                                         <div className="space-y-2 max-h-[200px] overflow-y-auto overflow-x-hidden">
@@ -234,19 +236,19 @@ export default function MainPageSearch() {
                                                 >
                                                     {result.city}, {result.country}
                                                 </div>
-
                                             ))}
                                         </div>
                                     ) : (
                                         <p className="text-gray-500 px-5 py-4 bg-red-50 rounded text-center">Ничего не найдено</p>
                                     )
                                 )}
-
-
-
                                 <div className='m-4 flex justify-center items-center'>
                                     <button
-                                        onClick={() => handleCloseModal()}
+                                        onClick={() => {
+                                            setOpenModal(false)
+                                            setQuery('')
+                                            setResults([])
+                                        }}
                                         className="text-sm text-black w-full p-2  border border-gray-300 rounded hover:bg-black hover:text-white transition duration-300 ease-in-out"
                                     >
                                         Закрыть
@@ -254,25 +256,33 @@ export default function MainPageSearch() {
                                 </div>
                             </div>
                         </div>
-                    )
-                    }
+                    )}
                 </section>
-
                 <form
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={e => e.preventDefault()}
                     className='max-md:w-full flex w-[456px] items-center justify-between mt-2.5 bg-[#F3F0F3]  rounded-[10px] px-4 py-2'
                 >
-                    <input
-                        type='text'
-                        value={querySearcher}
-                        onChange={(e) => setQuerySearcher(e.target.value)}
-                        placeholder='Поиск ресторанов, мечетей или услуг'
-                        className='w-full bg-transparent outline-none'
-                    />
+                    <div className="relative w-full">
+                        <input
+                            type='text'
+                            value={querySearcher}
+                            onChange={e => setQuerySearcher(e.target.value)}
+                            placeholder='Поиск ресторанов, мечетей или услуг'
+                            className='w-full bg-transparent outline-none pr-8'
+                        />
+                        {querySearcher && (
+                            <button
+                                type="button"
+                                onClick={handleClearSearch}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black text-lg"
+                                aria-label="Сбросить поиск"
+                            >×</button>
+                        )}
+                    </div>
                     <button
                         className='px-4 py-2 cursor-pointer'
-                        onClick={searchCards}
-                        disabled={loading}
+                        // onClick={searchCards}
+                        // disabled={loading}
                         type='submit'
                         aria-label='Search'
                     >

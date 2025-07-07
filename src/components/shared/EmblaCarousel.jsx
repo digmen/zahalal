@@ -41,7 +41,7 @@ const EmblaCarousel = (props) => {
           <h1 className='font-bold text-2xl'>В тренде 🔥</h1>
         </div>
 
-        {slides.length <= 3 && (
+        {slides.length >= 3 && (
           <div className="embla__buttons">
             <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
             <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
