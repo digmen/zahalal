@@ -4,34 +4,46 @@ import { Dialog } from '@headlessui/react'
 import { Star } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { API_URL } from '@/api/Api'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export default function Reviews({ reviews: initialReviews, cardId, averageRating }) {
     const [isOpen, setIsOpen] = useState(false)
     const [reviews, setReviews] = useState(initialReviews)
 
-    const [form, setForm] = useState({ name: '', rating: 0, text: '' })
+    const [form, setForm] = useState({ name: '', rating: "", text: '', cardId: cardId })
+    console.log(form);
 
     const handleSubmit = async () => {
         if (!form.name || !form.rating || !form.text) {
             toast.error('Заполните все поля')
             return
         }
+        // const csrftoken = Cookies.get('csrftoken')
+
+        // if (!csrftoken) {
+        //     toast.error('Не удалось получить CSRF-токен')
+        //     return
+        // }
 
         try {
-            const response = await fetch(`${API_URL}reviews/create/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json',
-                    'X-CSRFTOKEN': 'a1qY6jywJ6OBkFadintb987K6V7F9JXxEftS8FMD5wDZPD2tIEpEypE53kiWgVwV',
-                },
-                body: JSON.stringify({
+            const response = await axios.post(
+                'https://zahalal.ru/api/v1/reviews/create/',
+                {
                     author: form.name,
                     review: form.text,
                     stars: form.rating,
-                    card: cardId,
-                }),
-            })
+                    card: form.cardId,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+
+            console.log(response);
+
 
             if (!response.ok) throw new Error('Ошибка при отправке отзыва')
 

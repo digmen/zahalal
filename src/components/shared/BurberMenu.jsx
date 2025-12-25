@@ -24,6 +24,12 @@ export default function BurgerMenu({ selectedCatId }) {
         setIsOpen(false);
     };
 
+    const goNews = () => {
+        dispatch(setSelectedId('news'));
+        setIsOpen(false);
+        router.push(`/?cat=news`);
+    };
+
     return (
         <div className="lg:hidden relative z-50">
             <button
@@ -78,6 +84,20 @@ export default function BurgerMenu({ selectedCatId }) {
                                         {item.name}
                                     </li>
                                 ))}
+                                <li
+                                    onClick={() => goNews()}
+                                    className={`cursor-pointer w-full p-2.5 px-5 rounded-2xl shadow transition-all duration-300 ease-in-out
+                                                            ${String(selectedCatId) === 'news' ? 'bg-green-700 text-white' : 'bg-[#f6f6f6]'}`}
+                                >
+                                    <Image
+                                        src='/images/news.png'
+                                        alt='news icon'
+                                        width={24}
+                                        height={24}
+                                        className='inline-block mr-2 w-[24px] h-[24px]'
+                                    />
+                                    Новости
+                                </li>
                             </ul>
                         </motion.div>
                     </>

@@ -114,7 +114,7 @@ export default async function page({ params }) {
                     <WorkTime restaurantWorkDay={restaurant.work_days} />
                     <Video restaurantVideo={restaurant.videos} />
                     <YandexMap locationMap={restaurant.location} />
-                    <Reviews reviews={restaurant.reviews.results} averageRating={restaurant.average_rating} />
+                    <Reviews reviews={restaurant.reviews.results} averageRating={restaurant.average_rating} cardId={id} />
                 </article>
             </main>
         </>

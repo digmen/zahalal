@@ -83,7 +83,6 @@ export default async function Page({ searchParams }) {
 
   // 4. Получаем типы
   const typesRes = await fetch(`${API_URL}cards/types?cat_id=${selectedCatId}`, { cache: 'no-cache' });
-  console.log(typesRes);
 
   const typesData = await typesRes.json();
 

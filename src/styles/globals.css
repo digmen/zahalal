@@ -4,6 +4,22 @@
     scroll-behavior: smooth;
 }
 
+/* Для Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+    width: 8px;
+    /* можно уменьшить */
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
 input:focus {
     outline: none;
 }

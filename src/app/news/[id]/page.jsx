@@ -64,7 +64,7 @@ export default async function page({ params }) {
                         <h2 className='max-sm:text-[18px] text-[24px] font-bold text-[#131105]'>Описание</h2>
                         <NewsDescription description={news.description} />
                     </section>
-                    <ModalViewAllPhoto restaurantPhoto={news.photos} />
+                    {/* <ModalViewAllPhoto restaurantPhoto={news.photos} /> */}
                     <Video restaurantVideo={news.videos} />
                 </article>
             </main>
